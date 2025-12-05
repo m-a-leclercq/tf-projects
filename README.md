@@ -10,14 +10,18 @@ This Terraform configuration automatically creates dedicated Kibana spaces, role
 
 ## What This Creates
 
-For each project (A and B):
+For each project :
 
 1. **Kibana Space**: A dedicated space named "Project X"
 2. **Role**: A role with read/write permissions for:
-   - `logs-projectx-*`
-   - `metrics-projectx-*`
-   - `traces-projectx-*`
+   - `logs-*-projectx*`
+   - `metrics-*-projectx*`
+   - `traces-*-projectx*`
 3. **User**: A native user named `projectx` with a randomly generated password
+
+Globally :
+1. **Cluster settings**: `max_buckets` reduced to 20000, to be adjusted as required. `indices.breaker.total.limit` reduced to 60% to avoid large requests which could destabilize/crash a node.
+2. **signal@custom component template**: Sets defaults thresholds for logging slow indexing and searches so they can be monitored.
 
 ## Configuration
 
